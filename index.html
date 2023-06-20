@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Kafka环境配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T02:10:00.157Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Kafka环境配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Kafka 是一种分布式流数据处理平台，其使用基于发布和订阅模式的系统来处理高吞吐量的数据。在使用 Kafka 时，需要进行环境配置、安装和配置 Kafka 和 ZooKeeper 等操作。以下是一份针对 Kafka 环境配置的 Markdown 文档：</p>
+<h1 id="Kafka-环境配置"><a href="#Kafka-环境配置" class="headerlink" title="Kafka 环境配置"></a>Kafka 环境配置</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>在开始配置 Kafka 环境之前，需要先准备好以下环境：</p>
+<p>Java 运行环境（JRE）或 Java 开发环境（JDK）<br>一台或多台服务器，可以安装在本机或远程服务器<br>网络连接</p>
+<h3 id="安装-Kafka-和-ZooKeeper"><a href="#安装-Kafka-和-ZooKeeper" class="headerlink" title="安装 Kafka 和 ZooKeeper"></a>安装 Kafka 和 ZooKeeper</h3><p>Kafka 需要依赖 ZooKeeper 进行股权控制和协调管理，因此需要先安装 ZooKeeper。</p>
+<h4 id="下载-ZooKeeper"><a href="#下载-ZooKeeper" class="headerlink" title="下载 ZooKeeper"></a>下载 ZooKeeper</h4><p>可以在 ZooKeeper 的官网（<a target="_blank" rel="noopener" href="https://zookeeper.apache.org/%EF%BC%89%E4%B8%8A%E4%B8%8B%E8%BD%BD%E9%80%82%E7%94%A8%E4%BA%8E%E4%BD%A0%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E7%9A%84">https://zookeeper.apache.org/）上下载适用于你的操作系统版本的</a> ZooKeeper。下载完成后，将其解压到一个目录下，在  conf  目录下创建一个  zoo.cfg  文件，并将以下内容添加到文件中：</p>
+<p><code>tickTime=2000</code><br><code>dataDir=/path/to/zookeeper/data</code><br><code>clientPort=2181</code></p>
+<p>这里需要将  &#x2F;path&#x2F;to&#x2F;zookeeper&#x2F;data  修改为一个具体的目录路径。</p>
+<h4 id="启动-ZooKeeper"><a href="#启动-ZooKeeper" class="headerlink" title="启动 ZooKeeper"></a>启动 ZooKeeper</h4><p>可以使用以下命令来启动 ZooKeeper：</p>
+<p><code>$$ bin/zkServer.sh start</code></p>
+<h4 id="下载并解压-Kafka"><a href="#下载并解压-Kafka" class="headerlink" title="下载并解压 Kafka"></a>下载并解压 Kafka</h4><p>可以在 Kafka 的官网（<a target="_blank" rel="noopener" href="https://kafka.apache.org/downloads%EF%BC%89%E4%B8%8A%E4%B8%8B%E8%BD%BD%E9%80%82%E7%94%A8%E4%BA%8E%E4%BD%A0%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E7%9A%84">https://kafka.apache.org/downloads）上下载适用于你的操作系统版本的</a> Kafka，并将其解压到一个目录下。</p>
+<h4 id="启动-Kafka"><a href="#启动-Kafka" class="headerlink" title="启动 Kafka"></a>启动 Kafka</h4><p>可以使用以下命令来启动 Kafka：</p>
+<p><code>$$ bin/kafka-server-start.sh config/server.properties</code></p>
+<h4 id="创建主题"><a href="#创建主题" class="headerlink" title="创建主题"></a>创建主题</h4><p>可以使用以下命令来创建一个主题：</p>
+<p><code>$$ bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test</code></p>
+<p>这里创建了一个名为  test  的主题。</p>
+<p>这就是简单的配置Kafka环境搭建。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-id="clj3neole0002pk780gt2f4fd" data-title="Kafka环境配置" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Kafka命令行操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T02:10:00.154Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/">Kafka命令行操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Kafka 是一个流处理平台，使用基于发布和订阅模式的系统，处理高吞吐量的数据。使用 Kafka 的命令行工具可以进行基本操作，例如创建生产者和消费者以及测试主题。以下是一份关于 Kafka 命令行操作的 Markdown 文档：</p>
+<h1 id="Kafka-命令行操作"><a href="#Kafka-命令行操作" class="headerlink" title="Kafka 命令行操作"></a>Kafka 命令行操作</h1><h2 id="安装-Kafka"><a href="#安装-Kafka" class="headerlink" title="安装 Kafka"></a>安装 Kafka</h2><p>在开始使用 Kafka 命令行之前，需要先安装 Kafka。</p>
+<h3 id="下载-Kafka"><a href="#下载-Kafka" class="headerlink" title="下载 Kafka"></a>下载 Kafka</h3><p>可以在 Kafka 的官网（<a target="_blank" rel="noopener" href="https://kafka.apache.org/downloads%EF%BC%89%E4%B8%8A%E4%B8%8B%E8%BD%BD%E9%80%82%E7%94%A8%E4%BA%8E%E4%BD%A0%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E7%9A%84">https://kafka.apache.org/downloads）上下载适用于你的操作系统版本的</a> Kafka。</p>
+<h3 id="解压-Kafka"><a href="#解压-Kafka" class="headerlink" title="解压 Kafka"></a>解压 Kafka</h3><p>将下载的 Kafka 压缩包解压到一个目录下。</p>
+<h3 id="启动-ZooKeeper"><a href="#启动-ZooKeeper" class="headerlink" title="启动 ZooKeeper"></a>启动 ZooKeeper</h3><p>Kafka 需要依赖 ZooKeeper 进行群集管理。在启动 Kafka 之前，需要先启动 ZooKeeper。可以使用以下命令来启动 ZooKeeper：</p>
+<p><code>bin/zookeeper-server-start.sh config/zookeeper.properties</code></p>
+<p>默认情况下，ZooKeeper 的监听端口为  2181 。</p>
+<h3 id="启动-Kafka"><a href="#启动-Kafka" class="headerlink" title="启动 Kafka"></a>启动 Kafka</h3><p>可以使用以下命令来启动 Kafka：</p>
+<p><code>bin/kafka-server-start.sh config/server.properties</code></p>
+<h2 id="创建主题"><a href="#创建主题" class="headerlink" title="创建主题"></a>创建主题</h2><p>在 Kafka 中，主题是一类具有相似特性的消息记录集。可以使用以下命令来创建一个主题：</p>
+<p><code>bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test</code></p>
+<p>这里创建了一个名为  test ，只有一个分区以及一个副本数的主题。</p>
+<h2 id="创建生产者和消费者"><a href="#创建生产者和消费者" class="headerlink" title="创建生产者和消费者"></a>创建生产者和消费者</h2><p>可以使用以下命令来创建 Kafka 生产者：</p>
+<p><code>bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test</code></p>
+<p>这里创建了一个名为  test  的生产者。</p>
+<p>可以使用以下命令来创建 Kafka 消费者：</p>
+<p><code>bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning</code></p>
+<p>这里创建了一个名为  test  的消费者，并从消息起始位置开始接收消息。</p>
+<h2 id="向主题发送和接收消息"><a href="#向主题发送和接收消息" class="headerlink" title="向主题发送和接收消息"></a>向主题发送和接收消息</h2><p>可以使用创建好的生产者向主题发送消息：</p>
+<p><code>bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test</code></p>
+<blockquote>
+<p>Hello, Kafka!</p>
+</blockquote>
+<p>这里向  test  主题发送了一条消息  Hello, Kafka! 。</p>
+<p>可以使用创建的消费者接收消息：</p>
+<p><code>bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning</code><br>Hello, Kafka!</p>
+<p>这里从  test  主题接收了之前发送的一条消息  Hello, Kafka! 。</p>
+<h2 id="停止-Kafka"><a href="#停止-Kafka" class="headerlink" title="停止 Kafka"></a>停止 Kafka</h2><p>可以使用以下命令停止 Kafka：</p>
+<p><code>bin/kafka-server-stop.sh</code></p>
+<p>以上就是使用 Kafka 命令行进行操作的基本步骤。在实际使用中，需要根据具体情况进行相应的操作，并注意细节。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/" data-id="clj3neolc0001pk789ewg6yko" data-title="Kafka命令行操作" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-kafka-eagle各项功能" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T02:10:00.152Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/">kafka-eagle各项功能</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Kafka-Eagle"><a href="#Kafka-Eagle" class="headerlink" title="Kafka-Eagle"></a>Kafka-Eagle</h1><p>Kafka Eagle 是一个基于 Web 的 Kafka 集群管理系统，它提供了丰富的功能和工具来监控和管理 Kafka 集群。下面我们将对 Kafka Eagle 的各项功能进行介绍。</p>
+<h2 id="集群管理"><a href="#集群管理" class="headerlink" title="集群管理"></a>集群管理</h2><p>在 Kafka Eagle 中，可以通过集群管理功能来管理 Kafka 集群。通过该功能，用户可以对已有的集群进行添加、修改或者删除操作。</p>
+<p>消费者管理</p>
+<p>Kafka Eagle 提供了消费者管理功能，用户可以通过该功能来监控消费者的状态、消费者组的状态、消费者组分区的状态以及消费者消费的最新偏移量等信息。</p>
+<h2 id="主题管理"><a href="#主题管理" class="headerlink" title="主题管理"></a>主题管理</h2><p>在 Kafka Eagle 中，用户可以通过主题管理功能来创建主题、查看主题的基本信息、修改主题配置、删除主题等操作。此外，该功能还允许用户查看主题的日志和主题分区的信息。</p>
+<h2 id="消息查询"><a href="#消息查询" class="headerlink" title="消息查询"></a>消息查询</h2><p>通过消息查询功能，用户可以在 Kafka 上搜索消息并查看消息的详细信息。该功能支持对消息的关键字进行搜索，并能够按照时间范围、主题名称、消费者组编号等条件来过滤搜索结果。</p>
+<h2 id="指标监测"><a href="#指标监测" class="headerlink" title="指标监测"></a>指标监测</h2><p>Kafka Eagle 提供了指标监测功能，可以对 Kafka 集群进行性能监测和数据采集。用户可以通过该功能来监测 Kafka 集群的生产和消费情况、主题分区状态、网络流量和磁盘使用情况等指标信息。</p>
+<h2 id="偏移量管理"><a href="#偏移量管理" class="headerlink" title="偏移量管理"></a>偏移量管理</h2><p>通过偏移量管理功能，用户可以监测 Kafka 消费者组的状态和消费情况，并可视化地显示消费者组的消费偏移量。此外，该功能还提供了偏移量修正、偏移量删除等功能。</p>
+<h2 id="告警管理"><a href="#告警管理" class="headerlink" title="告警管理"></a>告警管理</h2><p>通过告警管理功能，用户可以设置告警条件，并在符合条件时发送通知信息。例如，当 Kafka 集群的某个指标值超过预先设置的阈值时，就会发送警报。</p>
+<p>综上所述，Kafka Eagle 作为一个功能齐全的 Kafka 集群管理系统，提供了丰富的功能和工具来监控和管理 Kafka 集群。Kafka Eagle 的功能非常丰富，用起来也相对简单，适合各种规</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/" data-id="clj3neoli0009pk78ab1i5kxx" data-title="kafka-eagle各项功能" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-zookeeper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/zookeeper/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T01:50:58.749Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/zookeeper/">Zookeeper</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一-准备工作"><a href="#一-准备工作" class="headerlink" title="一.准备工作"></a>一.准备工作</h2><p>安装前需要安装好jdk</p>
+<p>检测集群时间是否同步</p>
+<p>检测防火墙是否关闭</p>
+<p>检测主机 ip映射有没有配置</p>
+<h2 id="二-解压zookeeper安装包"><a href="#二-解压zookeeper安装包" class="headerlink" title="二.解压zookeeper安装包"></a>二.解压zookeeper安装包</h2><p>在node1主机上，解压zookeeper的压缩包到&#x2F;export&#x2F;server路径下去，然后准备进行安装</p>
+<p><img src="/../zookeeper/1.png" alt="图 1"></p>
+<p>创建软连接</p>
+<p><img src="/../zookeeper/2.png" alt="图 2"></p>
+<h2 id="三-修改环境变量"><a href="#三-修改环境变量" class="headerlink" title="三.修改环境变量"></a>三.修改环境变量</h2><p>注意：三台虚拟机都要修改</p>
+<p><img src="/../zookeeper/3.png" alt="图 3"><br><img src="/../zookeeper/4.png" alt="图 4"><br><img src="/../zookeeper/5.png" alt="图 5"></p>
+<h2 id="四-修改配置文件"><a href="#四-修改配置文件" class="headerlink" title="四.修改配置文件"></a>四.修改配置文件</h2><p>修改zookeeper配置文件</p>
+<p><img src="/../zookeeper/6.png" alt="图 6"></p>
+<p>创建目录</p>
+<p><img src="/../zookeeper/7.png" alt="图 7"></p>
+<p>修改 zoo.cfg</p>
+<p>增加下列内容</p>
+<p><img src="/../zookeeper/8.png" alt="图 8"></p>
+<h2 id="五-添加myid配置"><a href="#五-添加myid配置" class="headerlink" title="五.添加myid配置"></a>五.添加myid配置</h2><p>在node1主机的&#x2F;export&#x2F;data&#x2F;zookeeper&#x2F;zkdatas&#x2F;这个路径下创建一个文件，文件名为myid ,文件内容为1</p>
+<p><img src="/../zookeeper/9.png" alt="图 9"></p>
+<h2 id="六-安装包分发并修改myid的值"><a href="#六-安装包分发并修改myid的值" class="headerlink" title="六.安装包分发并修改myid的值"></a>六.安装包分发并修改myid的值</h2><p>在node1主机上，将安装包分发到其他机器第一台机器上面执行以下两个命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /export/server/apache-zookeeper-3.7.0-bin/ root@node2:/export/server/</span><br><span class="line">scp -r /export/server/apache-zookeeper-3.7.0-bin/ root@node3:/export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../zookeeper/10.png" alt="图 10"></p>
+<p>第二台机器上建立软连接并修改myid的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server</span><br><span class="line">ln -s apache-zookeeper-3.7.0-bin/ zookeeper</span><br><span class="line">echo 2 &gt; /export/data/zookeeper/zkdatas/myid </span><br></pre></td></tr></table></figure>
+<p><img src="/../zookeeper/11.png" alt="图 11"></p>
+<p>第三台同理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server</span><br><span class="line">ln -s apache-zookeeper-3.7.0-bin/ zookeeper</span><br><span class="line">echo 3&gt; /export/data/zookeeper/zkdatas/myid </span><br></pre></td></tr></table></figure>
+<p><img src="/../zookeeper/12.png" alt="图 12"></p>
+<h2 id="七-三台机器启动zookeeper服务"><a href="#七-三台机器启动zookeeper服务" class="headerlink" title="七.三台机器启动zookeeper服务"></a>七.三台机器启动zookeeper服务</h2><p><img src="/../zookeeper/13.png" alt="图 13"><br><img src="/../zookeeper/14.png" alt="图 14"><br><img src="/../zookeeper/15.png" alt="图 15"><br><img src="/../zookeeper/16.png" alt="图 16"></p>
+<p>编写一个shell脚本同时启动三台机器的zookeeper服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">if [ $# -eq 0 ] #  $#参数的个数</span><br><span class="line">then</span><br><span class="line">    echo &quot;please input param:start stop status&quot;</span><br><span class="line">else</span><br><span class="line">    if [ $1 = start  ]</span><br><span class="line">    then</span><br><span class="line">        for i in &#123;1..3&#125;</span><br><span class="line">        do</span><br><span class="line">            echo &quot;$&#123;1&#125;ing node$&#123;i&#125;&quot;</span><br><span class="line">            ssh node$&#123;i&#125; &quot;source /etc/profile;/export/server/zookeeper/bin/zkServer.sh start&quot;</span><br><span class="line">        done</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    if [ $1 = stop ]</span><br><span class="line">    then</span><br><span class="line">        for i in &#123;1..3&#125;</span><br><span class="line">        do</span><br><span class="line">            echo &quot;$&#123;1&#125;ping node$&#123;i&#125;&quot;</span><br><span class="line">            ssh node$&#123;i&#125; &quot;source /etc/profile;/export/server/zookeeper/bin/zkServer.sh stop&quot;</span><br><span class="line">        done</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">    if [ $1 = status ]</span><br><span class="line">    then</span><br><span class="line">        for i in &#123;1..3&#125;</span><br><span class="line">        do</span><br><span class="line">            echo &quot;node$&#123;i&#125; status:&quot;</span><br><span class="line">            ssh node$&#123;i&#125; &quot;source /etc/profile;/export/server/zookeeper/bin/zkServer.sh status&quot;</span><br><span class="line">        done</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p><img src="/../zookeeper/17.png" alt="图 17"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/zookeeper/" data-id="clj3neoll000epk78hv4dh1af" data-title="Zookeeper" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-sqoop" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/sqoop/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T01:50:58.746Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/sqoop/">Sqoop</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1、sqoop安装"><a href="#1、sqoop安装" class="headerlink" title="1、sqoop安装"></a>1、sqoop安装</h2><p>1.1将sqoop包上传至虚拟机</p>
+<p><img src="/../sqoop/1.png" alt="图 1"></p>
+<p>输入解压命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf sqoop-1.4.6.bin__hadoop-2.0.4-alpha.tar.gz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p>解压至&#x2F;export&#x2F;server&#x2F;目录下，并输入ln -s 配置软连接</p>
+<p><img src="/../sqoop/2.png" alt="图 2"></p>
+<p>1.2修改配置文件</p>
+<p>vim &#x2F;etc&#x2F;profile，输入sqoop的运行路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#SQOOP_HOME</span><br><span class="line">export SQOOP_HOME=/export/server/sqoop</span><br><span class="line">export PATH=$PATH:$SQOOP_HOME/bin</span><br></pre></td></tr></table></figure>
+<p><img src="/../sqoop/3.png" alt="图 3"></p>
+<p>Source profile</p>
+<p>Cd到sqoop的conf目录下，将sqoop-env-templa.sh修改为sqoop-env.sh</p>
+<p><img src="/../sqoop/4.png" alt="图 4"></p>
+<p>vim进入sqoop-env.sh输入配置信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_COMMON_HOME= /export/server/hadoop</span><br><span class="line">export HADOOP_MAPRED_HOME= /export/server/hadoop</span><br><span class="line">export HIVE_HOME= /export/server/hive</span><br></pre></td></tr></table></figure>
+<p><img src="/../sqoop/5.png" alt="图 5"></p>
+<p>加入mysql的jdbc驱动包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /export/server/hive/lib/mysql-connector-java-5.1.32.jar </span><br><span class="line">$SQOOP_HOME/lib/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sqoop/6.png" alt="图 6"></p>
+<p>1.3验证启动</p>
+<p>Cd到sqoop目录下，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/sqoop list-databases \</span><br><span class="line"> --connect jdbc:mysql://node1:3306/ \   #链接地址node1上的mysql</span><br><span class="line"> 	 --username root --password hadoop     #输入mysql的密码</span><br></pre></td></tr></table></figure>
+<p>列出所有mysql的数据库</p>
+<p><img src="/../sqoop/7.png" alt="图 7"></p>
+<h2 id="2-sqoop导入至HDFS"><a href="#2-sqoop导入至HDFS" class="headerlink" title="2.sqoop导入至HDFS"></a>2.sqoop导入至HDFS</h2><h3 id="2-1创建数据库和建表"><a href="#2-1创建数据库和建表" class="headerlink" title="2.1创建数据库和建表"></a>2.1创建数据库和建表</h3><p> 2.1.1链接node1 mysql数据库后，在Navicat中新建库get_food，使用以下SQL语句创建数据表</p>
+<p> <img src="/../sqoop/8.png" alt="图 8"></p>
+<p> 2.1.2插入数据</p>
+<p> <img src="/../sqoop/9.png" alt="图 9"></p>
+<p> 2.1.3查看数据表中数据</p>
+<p> <img src="/../sqoop/10.png" alt="图 10"></p>
+<h3 id="2-2上传至DFFS"><a href="#2-2上传至DFFS" class="headerlink" title="2.2上传至DFFS"></a>2.2上传至DFFS</h3><p>2.2.1上传数据</p>
+<p>输入以下命令</p>
+<p><img src="/../sqoop/11.png" alt="图 11"></p>
+<p>2.2.2查看数据</p>
+<p>进入node1:&#x2F;&#x2F;9870的HDFS页面查看</p>
+<p><img src="/../sqoop/12.png" alt="图 12"></p>
+<p>在node1上使用-cat命令查看</p>
+<p><img src="/../sqoop/13.png" alt="图 13"></p>
+<p>导入成功</p>
+<p>更新导出(updateonly)</p>
+<p><img src="/../sqoop/14.png" alt="图 14"><br><img src="/../sqoop/15.png" alt="图 15"><br><img src="/../sqoop/16.png" alt="图 16"><br><img src="/../sqoop/17.png" alt="图 17"><br><img src="/../sqoop/18.png" alt="图 18"></p>
+<p>更新导出(allowinsert)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/sqoop/" data-id="clj3neolk000cpk785snsekl6" data-title="Sqoop" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-kafka" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/kafka/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T01:50:58.743Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/kafka/">Kafka</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-安装kafka-集群"><a href="#1-安装kafka-集群" class="headerlink" title="1. 安装kafka 集群"></a>1. 安装kafka 集群</h2><p>上传压缩包到&#x2F;export&#x2F;server目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv kafka_2.12-2.4.1.tgz /export/server</span><br></pre></td></tr></table></figure>
+
+<p>解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf kafka_2.12-2.4.1.tgz</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/1.png" alt="图 1"></p>
+<p>进入配置文件目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/kafka_2.11-2.0.0/config</span><br></pre></td></tr></table></figure>
+
+<p>编辑配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi server.properties</span><br></pre></td></tr></table></figure>
+
+<p>加入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#为依次增长的:0、1、2、3、4,集群中唯一 id --》从0开始，每台不能重复，第一块要改的</span><br><span class="line">broker.id=0 </span><br><span class="line"></span><br><span class="line">----Logbasic------</span><br><span class="line">#数据存储的目录，第二块要改的</span><br><span class="line">log.dirs=/export/data/kafka-logs  </span><br><span class="line"></span><br><span class="line">---zookeeper----</span><br><span class="line">#指定 zk 集群地址，第四块要改的</span><br><span class="line">zookeeper.connect=node1:2181,node2:2181,node3:2181</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/2.png" alt="图 2"></p>
+<p>将node1内容分发到node2，node3中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Scp -r /export/server/kafka_2.12-2.4.1 root@node2: /export/server</span><br><span class="line">Scp -r /export/server/kafka_2.12-2.4.1 root@node3: /export/server</span><br></pre></td></tr></table></figure>
+
+<p>配置环境变量</p>
+<p>进入profile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile </span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export KAFKA_HOME=/export/server/kafka </span><br><span class="line">export PATH=$PATH:$KAFKA_HOME/bin</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/3.png" alt="图 3"></p>
+<p>添加后重置环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>分发环境变量至node2，node3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Scp /etc/profile root@node2: /etc/profile</span><br><span class="line">Scp /etc/profile root@node3: /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>分别在node2和node3上修改配置文件</p>
+<p>broker.id&#x3D;1 </p>
+<p><img src="/../kafka/4.png" alt="图 4"></p>
+<p>broker.id&#x3D;2</p>
+<p><img src="/../kafka/5.png" alt="图 5"></p>
+<p>启停集群(在各个节点上启动)</p>
+<p>启动集群</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-server-start.sh -daemon /export/server/kafka/config/server.properties</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/6.png" alt="图 6"></p>
+<p>停止集群</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-server-stop.sh stop</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/7.png" alt="图 7"></p>
+<p>kafka一键启停脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line">if [ $# -eq 0 ]</span><br><span class="line">then</span><br><span class="line">echo &quot;please input param:start stop&quot;</span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">if [ $1 = start  ]</span><br><span class="line">then</span><br><span class="line">for i in &#123;1..3&#125;</span><br><span class="line">do</span><br><span class="line">echo &quot;$&#123;1&#125;ing node$&#123;i&#125;&quot;</span><br><span class="line">ssh node$&#123;i&#125; &quot;source /etc/profile;/export/server/kafka/bin/kafka-server-start.sh -daemon /export/server/kafka/config/server.properties&quot;</span><br><span class="line">done</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $1 = stop ]</span><br><span class="line">then</span><br><span class="line">for i in &#123;1..3&#125;</span><br><span class="line">do</span><br><span class="line">ssh node$&#123;i&#125; &quot;source /etc/profile;/export/server/kafka/bin/kafka-server-stop.sh&quot;</span><br><span class="line">done</span><br><span class="line">fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/8.png" alt="图 8"></p>
+<h2 id="2-kafka命令行操作"><a href="#2-kafka命令行操作" class="headerlink" title="2.kafka命令行操作"></a>2.kafka命令行操作</h2><h3 id="（1）创建topic"><a href="#（1）创建topic" class="headerlink" title="（1）创建topic"></a>（1）创建topic</h3><p>基本方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-topics.sh --create --topic tpc_1 --partitions 2 --replication-factor 2 --zookeeper node1:2181</span><br></pre></td></tr></table></figure>
+<p>bootstrap方式</p>
+<p>创建名为test的主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --bootstrap-server node1:9092 --topic test</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/9.png" alt="图 9"></p>
+<p>查看目前Kafka中的主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --list --bootstrap-server node1:9092</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/10.png" alt="图 10"></p>
+<p>删除topic</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh  --delete --topic tpc_1 --zookeeper node1：2181</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/11.png" alt="图 11"></p>
+<p>(1)列出当前系统中的所有 topic </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --zookeeper node1:2181,node2:2181,node3:2181 --list</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/12.png" alt="图 12"></p>
+<p>(2)查看 topic 详细信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --topic tpc_1   --zookeeper node1:2181 --replica-assignment 0:1,1:2</span><br><span class="line">bin/kafka-topics.sh --describe --topic tpc_1 --zookeper node1:2181</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/13.png" alt="图 13"></p>
+<p>增加分区数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --alter --topic tpc_1 --partitions 3 --zookeeper node1:2181</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/14.png" alt="图 14"></p>
+<p>消费消息(从头开始)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --bootstrap-server node1:9092, node2:9092, node1:9092 --topic tpc_1 --from-beginning</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/15.png" alt="图 15"></p>
+<p>指定要消费的分区,和要消费的起始 offset </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --topic tcp_1 --offset 2 --partition 0</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/16.png" alt="图 16"><br><img src="/../kafka/17.png" alt="图 17"></p>
+<h3 id="（2）配置管理-kafka-configs"><a href="#（2）配置管理-kafka-configs" class="headerlink" title="（2）配置管理 kafka-configs"></a>（2）配置管理 kafka-configs</h3><p>查看 topic 的配置可以按如下方式执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-configs.sh zookeeper node1: 2181 --describe --entity-type topics --entity-name tpc_2</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/18.png" alt="图 18"></p>
+<p>查看 broker 的动态配置可以按如下方式执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-configs.sh zookeeper node1: 2181 --describe --entity-type brokers --entity-name 0 --zookeeper node1:2181</span><br></pre></td></tr></table></figure>
+<p><img src="/../kafka/19.png" alt="图 19"></p>
+<h3 id="（3）IDEA案例"><a href="#（3）IDEA案例" class="headerlink" title="（3）IDEA案例"></a>（3）IDEA案例</h3><p>生产信息</p>
+<p><img src="/../kafka/20.png" alt="图 20"><br><img src="/../kafka/21.png" alt="图 21"><br><img src="/../kafka/22.png" alt="图 22"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/kafka/" data-id="clj3neolj000apk783kyr1p7w" data-title="Kafka" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-flume" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/20/flume/" class="article-date">
+  <time class="dt-published" datetime="2023-06-20T01:50:58.740Z" itemprop="datePublished">2023-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/20/flume/">Flume</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>将apache-flume-1.9.0-bin.tar.gz下载到CentOS系统中，对其解压</p>
+<p>解压命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xzf apache-flume-1.9.0-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>添加软连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s apache-flume-1.9.0-bin flume</span><br></pre></td></tr></table></figure>
+
+<p>Flume使用需要依赖JDK1.8以上环境，确保已安装</p>
+<p>将Flume安装目录配置到PATH中，方便在任意目录使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#FLUME_HOME</span><br><span class="line">export FLUME_HOME=/export/server/flume</span><br><span class="line">export PATH=$PATH:$FLUME_HOME/bin</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/1.png" alt="图 1"></p>
+<p>保存成功后刷新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>查看是否设置成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $FLUME_HOME</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/2.png" alt="图 2"></p>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="一、入门使用示例"><a href="#一、入门使用示例" class="headerlink" title="一、入门使用示例"></a>一、入门使用示例</h3><p>1、	安装Netcat</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nc</span><br></pre></td></tr></table></figure>
+
+<p>2、	在flume&#x2F;myconf目录下添加配置文件netcat-logger.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># example1-netcat-logger.conf: 单节点Flume配置</span><br><span class="line"># 定义agent名称为a1</span><br><span class="line"># 设置3个组件的名称</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.sinks = k1</span><br><span class="line">a1.channels = c1</span><br><span class="line"></span><br><span class="line"># 配置source类型为NetCat,监听地址为本机，端口为44444</span><br><span class="line">a1.sources.r1.type = netcat</span><br><span class="line">a1.sources.r1.bind = 0.0.0.0</span><br><span class="line">a1.sources.r1.port = 44444</span><br><span class="line"></span><br><span class="line">#source和channel关联</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line"></span><br><span class="line"># 配置channel类型为内存，内存队列最大容量为1000，一个事务中从source接收的Events数量或者发送给sink的Events数量最大为100</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"># 配置sink类型为Logger</span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line"># 将sink绑定到channel上</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/3.png" alt="图 3"></p>
+<p>3、	启动agent</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -n a1 -c conf -f myconf/example1-netcat-logger.conf -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/4.png" alt="图 4"></p>
+<p>4、	使用Netcat测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">从另一个终端启动Netcat连接到44444端口，发送一些字符串</span><br><span class="line">nc node1 44444</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/5.png" alt="图 5"></p>
+<p>观察agent控制台</p>
+<p><img src="/../flume/6.png" alt="图 6"></p>
+<h3 id="二、exec-source测试"><a href="#二、exec-source测试" class="headerlink" title="二、exec_source测试"></a>二、exec_source测试</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">vim exec-source-logger.conf</span><br><span class="line"></span><br><span class="line"># example2-exec-source-logger.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">a1.sources.r1.type = exec</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.command = tail -F /export/data/flume-example-data/shell/access.log </span><br><span class="line">a1.sources.r1.batchSize = 100</span><br><span class="line"></span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/7.png" alt="图 7"></p>
+<p>2、	启动测试</p>
+<p>（1）准备一个日志文件</p>
+<p>（2）写一个脚本模拟往日志文件中持续写入数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for i in &#123;1..10000&#125;; </span><br><span class="line">do echo $&#123;i&#125; “bigdata log”  &gt;&gt;  access.log ; </span><br><span class="line">sleep 0.5; </span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/8.png" alt="图 8"></p>
+<p>（3）创建一个flume自定义配置文件</p>
+<p>（4）启动flume采集</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -n a1 -c conf/ -f myconf/example2-exec-source-logger.conf -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/9.png" alt="图 9"></p>
+<h3 id="三、spooldir-source测试"><a href="#三、spooldir-source测试" class="headerlink" title="三、spooldir_source测试"></a>三、spooldir_source测试</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vim spooldir-source.conf</span><br><span class="line"></span><br><span class="line">#example3-spooldir-source.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.type = spooldir</span><br><span class="line">a1.sources.r1.spoolDir = /export/data/flume-example-data/weblog </span><br><span class="line"></span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/10.png" alt="图 10"></p>
+<p>2、	启动测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -n a1 -c conf -f myconf/example3-spooldir-source.conf -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/11.png" alt="图 11"></p>
+<h3 id="四、taildir-source测试"><a href="#四、taildir-source测试" class="headerlink" title="四、taildir_source测试"></a>四、taildir_source测试</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">vim taildir-source.conf</span><br><span class="line"></span><br><span class="line">#example4-taildir-source.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.sinks = k1</span><br><span class="line">a1.channels = c1</span><br><span class="line"></span><br><span class="line">a1.sources.r1.type = TAILDIR</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.positionFile = /export/data/flume-example-data/flumedata/taildir_position.json</span><br><span class="line">a1.sources.r1.filegroups = g1 g2</span><br><span class="line">a1.sources.r1.filegroups.g1 = /export/data/flume-example-data/weblog/web.*</span><br><span class="line">a1.sources.r1.filegroups.g2 = /export/data/flume-example-data/wxlog/wx.*</span><br><span class="line">a1.sources.r1.fileHeader = true</span><br><span class="line">#动态的header-keys eg：filepath=/../../../</span><br><span class="line">a1.sources.r1.fileHeaderKey = filepath</span><br><span class="line"></span><br><span class="line">#写死的header-keys（静态的） eg:a1 = aa1</span><br><span class="line">a1.sources.r1.headers.g1.a1 = aa1</span><br><span class="line">a1.sources.r1.headers.g1.b1 = bb1</span><br><span class="line">a1.sources.r1.headers.g2.a2 = aa2</span><br><span class="line">a1.sources.r1.headers.g2.b2 = bb2</span><br><span class="line"></span><br><span class="line">a1.sources.r1.maxBatchCount = 1000</span><br><span class="line"></span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 10000</span><br><span class="line">a1.channels.c1.transactionCapacity = 1000</span><br><span class="line"></span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/12.png" alt="图 12"></p>
+<p>2、	启动测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -n a1 -c conf/ -f  myconf/example4-taildir-source.conf -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/13.png" alt="图 13"></p>
+<h3 id="五、avro-source"><a href="#五、avro-source" class="headerlink" title="五、avro source"></a>五、avro source</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vim avro-source.conf</span><br><span class="line"></span><br><span class="line">#example5-avro-source.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.sources.r1.type = avro</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.bind = 0.0.0.0</span><br><span class="line">a1.sources.r1.port = 4141</span><br><span class="line"></span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 200</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line">a1.sinks = k1</span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/14.png" alt="图 14"></p>
+<p>2、	启动测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -c conf -f  myconf/example5-avro-source.conf -n a1 -Dflume.root.logger=INFO,console  </span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/15.png" alt="图 15"></p>
+<h3 id="六、使用File-Channel实现数据持久化"><a href="#六、使用File-Channel实现数据持久化" class="headerlink" title="六、使用File Channel实现数据持久化"></a>六、使用File Channel实现数据持久化</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">vim file-channel.conf</span><br><span class="line"></span><br><span class="line">#example6-file-channel.conf</span><br><span class="line"># 定义agent名称为a1</span><br><span class="line"># 设置3个组件的名称</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"># 多个channel使用空格分隔</span><br><span class="line">a1.channels = c1 c2</span><br><span class="line"></span><br><span class="line"># 配置source类型为NetCat,监听地址为本机，端口为44444</span><br><span class="line">a1.sources.r1.type = netcat</span><br><span class="line">a1.sources.r1.bind = 0.0.0.0</span><br><span class="line">a1.sources.r1.port = 44444</span><br><span class="line"></span><br><span class="line"># 配置sink类型为Logger</span><br><span class="line">a1.sinks.k1.type = logger</span><br><span class="line"></span><br><span class="line"># 配置channel类型为内存，内存队列最大容量为1000，一个事务中从source接收的Events数量或者发送给sink的Events数量最大为100</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"># 配置FileChannel,checkpointDir为检查点文件存储目录，dataDirs为日志数据存储目录，</span><br><span class="line">a1.channels.c2.type = file</span><br><span class="line">a1.channels.c2.checkpointDir = /export/data/flume-example-data/flumedata/checkpoint_filechannel</span><br><span class="line">a1.channels.c2.dataDirs = /export/data/flume-example-data/flumedata/data_filechannel</span><br><span class="line"></span><br><span class="line"># 将source和sink绑定到channel上</span><br><span class="line"># source同时绑定到c1和c2上</span><br><span class="line">a1.sources.r1.channels = c1 c2</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/16.png" alt="图 16"></p>
+<p>2、	启动flume</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/flume-ng agent -n a1 -c conf -f myconf/example6-file-channel.conf -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/17.png" alt="图 17"></p>
+<h3 id="七、利用avro-source和avro-sink实现agent级联"><a href="#七、利用avro-source和avro-sink实现agent级联" class="headerlink" title="七、利用avro source和avro sink实现agent级联"></a>七、利用avro source和avro sink实现agent级联</h3><p>1、	配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">vim taildir-f-avro.conf</span><br><span class="line"></span><br><span class="line">#上游服务器配置 example7-1-taildir-f-avro.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">a1.sources.r1.type = TAILDIR</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.positionFile = /export/data/flume-example-data/flumedata/taildir_position.json</span><br><span class="line">a1.sources.r1.filegroups = g1 g2</span><br><span class="line">a1.sources.r1.filegroups.g1 = /export/data/flume-example-data/weblog/web.*</span><br><span class="line">a1.sources.r1.filegroups.g2 = /export/data/flume-example-data/wxlog/wx.*</span><br><span class="line">#提高吞吐量</span><br><span class="line">a1.sources.r1.batchSize = 1000</span><br><span class="line">#动态的header-keys eg：filepath=/../../../</span><br><span class="line">a1.sources.r1.fileHeaderKey = filepath</span><br><span class="line"></span><br><span class="line">#拦截器配置，添加header=timestamp</span><br><span class="line">a1.sources.r1.interceptors = i1</span><br><span class="line">a1.sources.r1.interceptors.i1.type = timestamp</span><br><span class="line">a1.sources.r1.interceptors.i1.headerName = timestamp</span><br><span class="line"></span><br><span class="line">a1.channels.c1.type = file</span><br><span class="line">#本机数据汇集检查点、event存储目录</span><br><span class="line">a1.channels.c1.checkpointDir = /export/data/flume-example-data/flumedata/checkpoint</span><br><span class="line">a1.channels.c1.dataDirs = /export/data/flume-example-data/flumedata/data</span><br><span class="line">a1.channels.c1.transactionCapacity = 2000</span><br><span class="line"></span><br><span class="line">a1.sinks.k1.channel = c1</span><br><span class="line">a1.sinks.k1.type = avro</span><br><span class="line">a1.sinks.k1.batch-size = 1000</span><br><span class="line">#下游目标主机、端口</span><br><span class="line">a1.sinks.k1.hostname = node3</span><br><span class="line">a1.sinks.k1.port = 44444</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/18.png" alt="图 18"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">vim avro-f-hdfs.conf</span><br><span class="line"></span><br><span class="line">#下游服务器配置 example7-2-avro-f-hdfs.conf</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">#下游数据汇集avro source</span><br><span class="line">a1.sources.r1.type = avro</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.bind = 0.0.0.0</span><br><span class="line">a1.sources.r1.port = 44444</span><br><span class="line">a1.sources.r1.threads = 10</span><br><span class="line">a1.sources.r1.batchSize = 1000</span><br><span class="line"></span><br><span class="line">a1.channels.c1.type = file</span><br><span class="line">a1.channels.c1.checkpointDir = /export/data/flume-example-data/flumedata/checkpoint</span><br><span class="line">a1.channels.c1.dataDirs = /export/data/flume-example-data/flumedata/data</span><br><span class="line">a1.channels.c1.transactionCapacity = 2000</span><br><span class="line"></span><br><span class="line">#hdfs sink</span><br><span class="line">a1.sinks.k1.channel = c1</span><br><span class="line">a1.sinks.k1.type = hdfs</span><br><span class="line">a1.sinks.k1.hdfs.path = hdfs://node1:8020/logdata/%Y-%m-%d/%H/</span><br><span class="line">#eg：文件名 logdata_34438hxfd.log，在滚动时，logdata_34438hxfd.log.tmp</span><br><span class="line">a1.sinks.k1.hdfs.filePrefix = logdata_</span><br><span class="line">a1.sinks.k1.hdfs.fileSuffix = .log</span><br><span class="line"></span><br><span class="line">#三个条件没有优先级，谁先达到就进行滚动</span><br><span class="line">#按时间间隔滚动</span><br><span class="line">a1.sinks.k1.hdfs.rollInterval = 0</span><br><span class="line">#按文件大小滚动 256MB</span><br><span class="line">a1.sinks.k1.hdfs.rollSize = 268435456</span><br><span class="line">#按event条数滚动</span><br><span class="line">a1.sinks.k1.hdfs.rollCount = 100000</span><br><span class="line"></span><br><span class="line">a1.sinks.k1.hdfs.batchSize = 1000</span><br><span class="line">a1.sinks.k1.hdfs.codeC = gzip</span><br><span class="line">a1.sinks.k1.hdfs.fileType = CompressedStream</span><br></pre></td></tr></table></figure>
+<p><img src="/../flume/19.png" alt="图 19"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/20/flume/" data-id="clj3neolg0005pk78axfrhq1d" data-title="Flume" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hive" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/11/hive/" class="article-date">
+  <time class="dt-published" datetime="2023-06-11T08:43:09.369Z" itemprop="datePublished">2023-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/11/hive/">hive</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="hive安装"><a href="#hive安装" class="headerlink" title="hive安装"></a>hive安装</h2><h3 id="1、上传安装包-解压"><a href="#1、上传安装包-解压" class="headerlink" title="1、上传安装包 解压"></a>1、上传安装包 解压</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf apache-hive-3.1.2-bin.tar.gz</span><br><span class="line">ln -s apache-hive-3.1.2-bin hive</span><br></pre></td></tr></table></figure>
+<h3 id="2、解决Hive与hadoop之间guava版本差异"><a href="#2、解决Hive与hadoop之间guava版本差异" class="headerlink" title="2、解决Hive与hadoop之间guava版本差异"></a>2、解决Hive与hadoop之间guava版本差异</h3><p>···<br>cd &#x2F;export&#x2F;server&#x2F;hive&#x2F;<br>rm -rf lib&#x2F;guava-19.0.jar<br>cp &#x2F;export&#x2F;server&#x2F;hadoop&#x2F;share&#x2F;hadoop&#x2F;common&#x2F;lib&#x2F;guava-27.0-jre.jar .&#x2F;lib&#x2F;<br>···</p>
+<h3 id="3、修改配置文件"><a href="#3、修改配置文件" class="headerlink" title="3、修改配置文件"></a>3、修改配置文件</h3><p>···<br>cd &#x2F;export&#x2F;server&#x2F;hive&#x2F;conf<br>mv hive-env.sh.template hive-env.sh</p>
+<p>vim hive-env.sh<br>export HADOOP_HOME&#x3D;&#x2F;export&#x2F;server&#x2F;hadoop<br>export HIVE_CONF_DIR&#x3D;&#x2F;export&#x2F;server&#x2F;hive&#x2F;conf<br>export HIVE_AUX_JARS_PATH&#x3D;&#x2F;export&#x2F;server&#x2F;hive&#x2F;lib<br>···<br><img src="/../hive/2.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">hive-site.xml：</span><br><span class="line">vim hive-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">&lt;!-- 存储元数据mysql相关配置 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;jdbc:mysql://node1:3306/hive3?createDatabaseIfNotExist=true&amp;amp;useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;root&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;hadoop&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- H2S运行绑定host --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;node1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 远程模式部署metastore metastore地址 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;thrift://node1:9083&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 关闭元数据存储授权  --&gt; </span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/../hive/3.jpg" alt="图"></p>
+<h3 id="4、上传mysql-jdbc驱动到hive安装包lib下"><a href="#4、上传mysql-jdbc驱动到hive安装包lib下" class="headerlink" title="4、上传mysql jdbc驱动到hive安装包lib下"></a>4、上传mysql jdbc驱动到hive安装包lib下</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql-connector-java-5.1.32.jar</span><br></pre></td></tr></table></figure>
+<h3 id="5、初始化元数据"><a href="#5、初始化元数据" class="headerlink" title="5、初始化元数据"></a>5、初始化元数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/</span><br><span class="line"></span><br><span class="line">bin/schematool -initSchema -dbType mysql -verbos</span><br><span class="line">#初始化成功会在mysql中创建74张表</span><br></pre></td></tr></table></figure>
+<h3 id="6、在hdfs创建hive存储目录（如存在则不用操作）"><a href="#6、在hdfs创建hive存储目录（如存在则不用操作）" class="headerlink" title="6、在hdfs创建hive存储目录（如存在则不用操作）"></a>6、在hdfs创建hive存储目录（如存在则不用操作）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir /tmp</span><br><span class="line">hadoop fs -mkdir -p /user/hive/warehouse</span><br><span class="line">hadoop fs -chmod g+w /tmp</span><br><span class="line">hadoop fs -chmod g+w /user/hive/warehouse</span><br></pre></td></tr></table></figure>
+<h3 id="7、启动hive"><a href="#7、启动hive" class="headerlink" title="7、启动hive"></a>7、启动hive</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/export/server/hive/bin/hive --service metastore</span><br><span class="line">/export/server/hive/bin/hive --service hiveserver2</span><br><span class="line">/export/server/hive/bin/beeline</span><br><span class="line">! connect jdbc:hive2://node2:10000</span><br><span class="line"></span><br><span class="line">cd /export/server/hive/bin/</span><br><span class="line">./hive</span><br></pre></td></tr></table></figure>
+<p><img src="/../hive/4.jpg" alt="图"></p>
+<h2 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h2><h3 id="1、创建一个数据仓库movie"><a href="#1、创建一个数据仓库movie" class="headerlink" title="1、创建一个数据仓库movie"></a>1、创建一个数据仓库movie</h3><p>···<br>create database movie;<br>use movie;<br>···<br><img src="/../images/5.jpg" alt="图"></p>
+<h3 id="2、创建t-user表及导入数据"><a href="#2、创建t-user表及导入数据" class="headerlink" title="2、创建t_user表及导入数据"></a>2、创建t_user表及导入数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table t_user(userid bigint,sex string,age int,occupation string,zipcode string)</span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line">load data local inpath &quot;/opt/datas/users.txt&quot; into table t_user;</span><br></pre></td></tr></table></figure>
+<p><img src="/../hive/6.jpg" alt="图"></p>
+<h3 id="3、创建t-movie表及导入数据"><a href="#3、创建t-movie表及导入数据" class="headerlink" title="3、创建t_movie表及导入数据"></a>3、创建t_movie表及导入数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table t_movie(movieid bigint,moviename string,movietype string) </span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line">load data local inpath &quot;/opt/datas/movies.txt&quot; into table t_movie;</span><br></pre></td></tr></table></figure>
+<p><img src="/../images/7.jpg" alt="图"></p>
+<h3 id="4、创建表t-rating表及导入数据"><a href="#4、创建表t-rating表及导入数据" class="headerlink" title="4、创建表t_rating表及导入数据"></a>4、创建表t_rating表及导入数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table t_rating(userid bigint,movieid bigint,rate double,times string) </span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line">load data local inpath &quot;/opt/datas/ratings.txt&quot; into table t_rating;</span><br></pre></td></tr></table></figure>
+<p><img src="/../hive/8.jpg" alt="图"></p>
+<h3 id="5、查询表t-user的记录总数"><a href="#5、查询表t-user的记录总数" class="headerlink" title="5、查询表t_user的记录总数"></a>5、查询表t_user的记录总数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from t_user;</span><br></pre></td></tr></table></figure>
+<p><img src="/../images/9.jpg" alt="图"></p>
+<h3 id="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"><a href="#6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）" class="headerlink" title="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"></a>6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：</span><br><span class="line">create table answer2 as </span><br><span class="line">select a.moviename as moviename,count(a.moviename) as total </span><br><span class="line">from t_movie a join t_rating b on a.movieid=b.movieid </span><br><span class="line">group by a.moviename </span><br><span class="line">order by total desc </span><br><span class="line">limit 10;</span><br><span class="line">（2）查询表answer2：</span><br><span class="line">select * from answer2;</span><br></pre></td></tr></table></figure>
+<p><img src="/../hive/10.jpg" alt="图"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/11/hive/" data-id="clj3neoli0008pk78ehoycwfa" data-title="hive" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-git" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/11/git/" class="article-date">
+  <time class="dt-published" datetime="2023-06-11T08:42:35.963Z" itemprop="datePublished">2023-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/11/git/">git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Git安装配置"><a href="#Git安装配置" class="headerlink" title="Git安装配置"></a>Git安装配置</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址： https://git-scm.com/download，选择Windows操作系统下载</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/1.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安装过程中需要注册，填写用户名及邮箱</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/2.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：安装完成后需要手动重启资源管理器或重启电脑。</span><br></pre></td></tr></table></figure>
+<h2 id="Git初始化"><a href="#Git初始化" class="headerlink" title="Git初始化"></a>Git初始化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">初始化一个本地仓</span><br><span class="line"> 选择新建的git_test文件，右键单机，选择Git在这里创建版本库</span><br></pre></td></tr></table></figure>
+<p> <img src="/../git/3.jpg" alt="图"><br> <img src="/../git/4.jpg" alt="图"><br> <img src="/../git/5.jpg" alt="图"><br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">操作后可以发现在git_test文件图标上出现了绿色的小勾，说明本地仓库创建成功，在进入该文件夹后还可以发现一个.git文件。此时，git初始化仓库就完成了。</span><br></pre></td></tr></table></figure><br><img src="/../git/6.jpg" alt="图"></p>
+<h2 id="概念即详解"><a href="#概念即详解" class="headerlink" title="概念即详解"></a>概念即详解</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">图中有远程仓库、本地仓库、工作区以及暂存区。</span><br><span class="line">本地仓库：是在开发人员自己电脑上的Git仓库,存放我们的代码。</span><br><span class="line">远程仓库：是在远程服务器上的Git仓库，一般是上传至企业的代码总仓库。</span><br><span class="line">工作区: 我们自己编写代码的区域。</span><br><span class="line">暂存区: 在本地仓库中的一个特殊的文件叫做暂存区,用来临时存储我们即将要提交的文件。</span><br></pre></td></tr></table></figure>
+<h2 id="Git的操作"><a href="#Git的操作" class="headerlink" title="Git的操作"></a>Git的操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Clone：克隆，就是将远程仓库复制到本地仓库。</span><br><span class="line">Push：推送，就是将本地仓库代码上传到远程仓库。</span><br><span class="line">Pull：拉取，就是将远程仓库代码下载到本地仓库，并将代码克隆到本地工作区。</span><br></pre></td></tr></table></figure>
+<h2 id="Git下的文件存在的状态"><a href="#Git下的文件存在的状态" class="headerlink" title="Git下的文件存在的状态"></a>Git下的文件存在的状态</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 untracked 未跟踪: 比如新建的文件(此时文件夹上没有图标或者有一个&quot;问号&quot;)</span><br><span class="line">2 tracked 已跟踪：    </span><br><span class="line">    2.1 Staged 已暂存状态:添加 但未提交状态(此时文件夹上有一个&quot;加号&quot;)</span><br><span class="line">	2.2 Unmodified 未修改状态:已提交(此时文件夹上有一个&quot;对号&quot;)</span><br><span class="line">	2.3 Modified 已修改状态:修改了,但是还没有提交 (此时文件夹上有一个&quot;红色感叹号&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/7.jpg" alt="图"><br><img src="/../git/8.jpg" alt="图"><br><img src="/../git/9.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如再次对文件进行修改，文件图表旁会出现一个红色的叹号。</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/10.jpg" alt="图"><br><img src="/../git/11.jpg" alt="图"><br><img src="/../git/12.jpg" alt="图"><br><img src="/../git/13.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">回退至历史版本等操作</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../git/14.jpg" alt="图"><br><img src="/../git/15.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">忽略提交</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../git/16.jpg" alt="图"><br><img src="/../git/17.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">分支</span><br><span class="line">单线程开发</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/18.jpg" alt="图"><br><img src="/../git/19.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建分支 主分支(master)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../git/20.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看分支</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/21.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">切换分支</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/22.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">分支的合并与删除</span><br><span class="line">切换到 主版本</span><br><span class="line">右键 合并即可将需求1 写的代码合并至主分支</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/23.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">删除分支</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/24.jpg" alt="图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">代码合并时会报错,我们叫做冲突。</span><br></pre></td></tr></table></figure>
+<p><img src="/../git/25.jpg" alt="图"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/11/git/" data-id="clj3neolg0006pk78ejt5h0y3" data-title="git" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/11/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2023-06-11T08:21:12.262Z" itemprop="datePublished">2023-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/11/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/11/hello-world/" data-id="clj3neolh0007pk789czo86rh" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+</section>
+        <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Kafka环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/">Kafka命令行操作</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/">kafka-eagle各项功能</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/zookeeper/">Zookeeper</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/sqoop/">Sqoop</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
